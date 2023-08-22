@@ -27,7 +27,7 @@
             var todo = todos[i];
             <tr class="todo-item">
                 <td class="@(todo.IsComplete ? "todo-item__text complete" : "todo-item_text")" @onclick="@(() => MarkAsComplete(todo))">@todo.Title</td>
-                <td>@todo.DueBy.ToString().Split(" ")[0]</td>
+                <td class="@(todo.IsComplete ? "todo-item__text complete" : "todo-item_text")">@todo.DueBy.ToString().Split(" ")[0]</td>
                 <td class="todo-item__close" @onclick="@(() => RemoveTodo(index))">&times;</td>
             </tr>
         }

@@ -43,6 +43,10 @@
     color: #BB2525;
 }
 
-.todo-item__close:hover {
+.todo-item__close:hover, .todo-item__text:hover {
     cursor: pointer;
+}
+
+.complete {
+    text-decoration: line-through;
 }

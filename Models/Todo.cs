@@ -5,7 +5,7 @@ namespace BlazorTodoApp.Models
 	{
         public string Title { get; set; }
         public DateTime DueBy { get; set; }
-        public bool IsComplete { get; set; }
+        public bool IsComplete { get; set; } = false;
     }
 }
 
