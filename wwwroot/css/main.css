@@ -1,0 +1,48 @@
+﻿h1 {
+    margin-bottom: 2rem;
+    color: #337CCF;
+}
+
+.todo-container {
+    width: 50%;
+    margin: auto;
+}
+
+.todo-input {
+    border: 1px solid rgba(20, 80, 163, 0.8);
+    padding: 1rem;
+}
+
+.todo-input input {
+    display: block;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.todo-input button {
+    width: 100%;
+    background-color: #337CCF;
+    color: #FFFFFF;
+    border: none;
+    padding: 0.5rem;
+    font-weight: bold;
+
+}
+
+.todos {
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.todo-item {
+    border-top: 1px solid rgba(20, 80, 163, 0.8);
+}
+
+.todo-item__close {
+    font-weight: bold;
+    color: #BB2525;
+}
+
+.todo-item__close:hover {
+    cursor: pointer;
+}

@@ -1,0 +1,85 @@
+﻿@page "/"
+@using BlazorTodoApp.Models
+@using Newtonsoft.Json
+
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+
+<div class="todo-container">
+    <h1>Task Planner</h1>
+    <div class="todo-input">
+        <label for="taskName">Task</label>
+        <input id="taskName" type="text" @bind="todoInput" />
+        <label for="dueBy">Due by</label>
+        <input id="dueBy" type="date" @bind="dateInput" min=@DateTime.Now/>
+        <button @onclick="AddTodo">Add New Task</button>
+    </div>
+
+    <table class="todos">
+        <tr>
+            <th>Task</th>
+            <th>Due by</th>
+            <th></th>
+        </tr>
+        @for (int i = 0; i < todos.Count; i++)
+        {
+            var index = i;
+            var todo = todos[i];
+            <tr class="todo-item">
+                <td class="@(todo.IsComplete ? "todo-item__text complete" : "todo-item_text")" @onclick="@(() => MarkAsComplete(todo))">@todo.Title</td>
+                <td>@todo.DueBy.ToString().Split(" ")[0]</td>
+                <td class="todo-item__close" @onclick="@(() => RemoveTodo(index))">&times;</td>
+            </tr>
+        }
+    </table>
+</div>
+
+@code
+{
+    public string todoInput { get; set; }
+    public DateTime dateInput { get; set; } = DateTime.Now;
+
+
+    public List<Todo> todos = new List<Todo>();
+    private const string TodoStorageKey = "SavedTodos";
+
+    //Lifecycle hook
+    protected override async Task OnInitializedAsync()
+    {
+        todos = await GetStoredTodos();
+    }
+
+    public void AddTodo()
+    {
+        var todo = new Todo();
+        todo.Title = todoInput;
+        todo.DueBy = dateInput.Date;
+        todos.Add(todo);
+        todoInput = "";
+        dateInput = DateTime.Now;
+        SaveTodos();
+    }
+
+    public void RemoveTodo(int index)
+    {
+        todos.RemoveAt(index);
+        SaveTodos();
+    }
+
+    public void MarkAsComplete(Todo todo)
+    {
+        todo.IsComplete = !todo.IsComplete;
+        SaveTodos();
+    }
+
+    public void SaveTodos()
+    {
+        LocalStorage.SetItemAsync(TodoStorageKey, JsonConvert.SerializeObject(todos));
+    }
+
+    private async Task<List<Todo>> GetStoredTodos()
+    {
+        var storedTodos = await LocalStorage.GetItemAsync<string>(TodoStorageKey);
+        return JsonConvert.DeserializeObject<List<Todo>>(storedTodos);
+    }
+}
